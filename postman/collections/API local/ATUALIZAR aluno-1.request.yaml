@@ -1,0 +1,5 @@
+$kind: http-request
+name: ATUALIZAR aluno
+url: localhost:3000/alunos/1
+method: PATCH
+order: 3000

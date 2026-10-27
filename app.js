@@ -1,15 +1,20 @@
 // importando o express (instalado via terminal)
 import express from 'express';
-import { ler, inserir, lerUm } from './src/aluno.js';
+import cors from 'cors';
+import { ler, inserir, lerUm, atualizar, excluir } from './src/aluno.js';
 
 const app = express();
-const porta = 3000;
+const porta = process.env.PORT || 3000;
 
 //habilitando o express para trabalhar com o formato JSON
 app.use(express.json());
 
 //habilitando o express para trabalhar com o formato URL Encoded (formulario)
 app.use(express.urlencoded({extended : true}) );
+
+// Habilitando CORS
+
+app.use(cors());
 
 
 /* ROTAS */
@@ -50,13 +55,19 @@ app.post('/alunos', (req, res) => {
 
 // PATCH: Endpoint para atualizar todos/alguns dados de UM aluno
 app.patch('/alunos/:id', (req, res) => {
-    res.send(`Dados do aluno atualizados com sucesso!`);
+    //res.send(`Dados do aluno atualizados com sucesso!`);
+    const id = parseInt(req.params.id);
+    const aluno = req.body;
+    atualizar(id, aluno, res);
 });
 
 
 // DELETE: endpoint para excluir alunos
 app.delete('/alunos/:id', (req, res) => {
-    res.send(`Aluno excluído com sucesso!`);
+    //res.send(`Aluno excluído com sucesso!`);
+
+    const id = parseInt(req.params.id);
+    excluir(id, res);
 });
 
 
